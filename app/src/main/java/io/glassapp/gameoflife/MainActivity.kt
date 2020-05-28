@@ -11,10 +11,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        val pixelGrid = PixelGridView(this)
-        pixelGrid.setNumColumns ( 16)
-        pixelGrid.setNumRows  (24)
+        val pixelGrid = PixelGridView(this, 16, 24)
+
+        val grid = Grid(24, 16)
+        val generation = grid.nextGeneration()
 
         boardContainer.addView(pixelGrid)
+        pixelGrid.render(generation)
     }
+
 }

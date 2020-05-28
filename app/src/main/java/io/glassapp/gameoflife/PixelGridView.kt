@@ -5,37 +5,19 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 
 class PixelGridView @JvmOverloads constructor(
     context: Context?,
-    attrs: AttributeSet? = null
-) : View(context, attrs) {
-    private var numColumns = 0
-    private var numRows = 0
+    private var numColumns: Int,
+    private var numRows: Int
+) : View(context, null) {
     private var cellWidth = 0
     private var cellHeight = 0
     private val blackPaint = Paint()
-    private var cellChecked: Array<BooleanArray> = arrayOf(booleanArrayOf())
-
-    fun setNumColumns(numColumns: Int) {
-        this.numColumns = numColumns
-        calculateDimensions()
-    }
-
-    fun getNumColumns(): Int {
-        return numColumns
-    }
-
-    fun setNumRows(numRows: Int) {
-        this.numRows = numRows
-        calculateDimensions()
-    }
-
-    fun getNumRows(): Int {
-        return numRows
-    }
+    private var cellChecked: Array<IntArray> = Array(numRows) { IntArray(numColumns) }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -48,9 +30,6 @@ class PixelGridView @JvmOverloads constructor(
         }
         cellWidth = width / numColumns
         cellHeight = height / numRows
-        cellChecked =
-            Array(numColumns) { BooleanArray(numRows) }
-        invalidate()
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -60,9 +39,10 @@ class PixelGridView @JvmOverloads constructor(
         }
         val width = width
         val height = height
-        for (i in 0 until numColumns) {
-            for (j in 0 until numRows) {
-                if (cellChecked[i][j]) {
+
+        for (i in 0 until numRows - 1) {
+            for (j in 0 until numColumns - 1) {
+                if (cellChecked[i][j] == 1) {
                     canvas.drawRect(
                         i * cellWidth.toFloat(), j * cellHeight.toFloat(),
                         (i + 1) * cellWidth.toFloat(), (j + 1) * cellHeight.toFloat(),
@@ -91,14 +71,10 @@ class PixelGridView @JvmOverloads constructor(
         }
     }
 
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN) {
-            val column = (event.x / cellWidth).toInt()
-            val row = (event.y / cellHeight).toInt()
-            cellChecked[column][row] = !cellChecked[column][row]
-            invalidate()
-        }
-        return true
+
+    fun render(generation: Array<IntArray>) {
+        cellChecked = generation
+        invalidate()
     }
 
     init {
