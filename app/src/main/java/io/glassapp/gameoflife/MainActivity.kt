@@ -59,14 +59,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun getNextStateForCell(i: Int, j: Int): Int {
         val aliveNeighbors = calculateLivingNeighbors(i, j)
-        return if (grid[i][j] == 1 && aliveNeighbors < 2) {
-            0
-        } else if (grid[i][j] == 1 && aliveNeighbors > 3) {
-            0
-        } else if (grid[i][j] == 0 && aliveNeighbors == 3) {
-            1
-        } else {
-            grid[i][j]
+        return when {
+            grid[i][j] == 1 && aliveNeighbors < 2 -> 0
+            grid[i][j] == 1 && aliveNeighbors > 3 -> 0
+            grid[i][j] == 0 && aliveNeighbors == 3 -> 1
+            else -> grid[i][j]
         }
     }
 
