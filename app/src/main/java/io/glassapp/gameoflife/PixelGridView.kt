@@ -40,12 +40,12 @@ class PixelGridView @JvmOverloads constructor(
         val width = width
         val height = height
 
-        for (i in 0 until numRows - 1) {
-            for (j in 0 until numColumns - 1) {
+        for (i in 0 until numRows) {
+            for (j in 0 until numColumns) {
                 if (cellChecked[i][j] == 1) {
                     canvas.drawRect(
-                        i * cellWidth.toFloat(), j * cellHeight.toFloat(),
-                        (i + 1) * cellWidth.toFloat(), (j + 1) * cellHeight.toFloat(),
+                        j * cellWidth.toFloat(), i * cellHeight.toFloat(),
+                        (j + 1) * cellWidth.toFloat(), (i + 1) * cellHeight.toFloat(),
                         blackPaint
                     )
                 }
