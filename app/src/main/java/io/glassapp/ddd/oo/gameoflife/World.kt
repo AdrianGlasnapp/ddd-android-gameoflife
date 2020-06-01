@@ -12,28 +12,24 @@ class World(
     private val liveNeighborsForBirth: Set<Int> = setOf(3)
 
     fun nextGeneration() {
-        cells = survivingCells() + bornCells()
+        cells = (survivingCells() + bornCells()).toSet()
     }
 
-    private fun survivingCells(): Set<Cell> {
+    private fun survivingCells(): List<Cell> {
         return cells
             .filter { survives(it.position) }
-            .toSet()
     }
 
-
-    private fun bornCells(): Set<Cell> {
+    private fun bornCells(): List<Cell> {
         return deadNeighbors(cells)
             .filter { born(it) }
             .map { Cell(it) }
-            .toSet()
     }
 
-    private fun deadNeighbors(cells: Set<Cell>): Set<Position> {
+    private fun deadNeighbors(cells: Set<Cell>): List<Position> {
         return cells
             .flatMap { deadNeighbors(it.position) }
             .distinct()
-            .toSet()
     }
 
     private fun deadNeighbors(cell: Position): List<Position> {
@@ -41,10 +37,9 @@ class World(
             .filterNot { isAlive(it) }
     }
 
-    private fun liveNeighbors(cell: Position): Set<Position> {
+    private fun liveNeighbors(cell: Position): List<Position> {
         return neighbors(cell)
             .filter { isAlive(it) }
-            .toSet()
     }
 
     private fun isAlive(position: Position): Boolean {
