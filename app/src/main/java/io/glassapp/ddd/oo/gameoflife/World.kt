@@ -8,8 +8,9 @@ class World(
     val columns: Int,
     var cells: Set<Cell>
 ) {
-    private val liveNeighborsForSurvival: Set<Int> = setOf(2, 3)
-    private val liveNeighborsForBirth: Set<Int> = setOf(3)
+    private val survivalPolicy: SurvivalPolicy = StandardSurvivalPolicy()
+    private val birthPolicy: BirthPolicy = StandardBirthPolicy()
+    private val neighborsPolicy: NeighborsPolicy = StandardNeighborsPolicy()
 
     fun nextGeneration() {
         cells = (survivingCells() + bornCells()).toSet()
@@ -17,12 +18,12 @@ class World(
 
     private fun survivingCells(): List<Cell> {
         return cells
-            .filter { survives(it.position) }
+            .filter { survivalPolicy.survives(countLiveNeighbors(it.position)) }
     }
 
     private fun bornCells(): List<Cell> {
         return deadNeighbors(cells)
-            .filter { born(it) }
+            .filter { birthPolicy.born(countLiveNeighbors(it)) }
             .map { Cell(it) }
     }
 
@@ -32,13 +33,13 @@ class World(
             .distinct()
     }
 
-    private fun deadNeighbors(cell: Position): List<Position> {
-        return neighbors(cell)
+    private fun deadNeighbors(position: Position): List<Position> {
+        return neighborsPolicy.calculateNeighbors(position)
             .filterNot { isAlive(it) }
     }
 
-    private fun liveNeighbors(cell: Position): List<Position> {
-        return neighbors(cell)
+    private fun liveNeighbors(position: Position): List<Position> {
+        return neighborsPolicy.calculateNeighbors(position)
             .filter { isAlive(it) }
     }
 
@@ -46,38 +47,8 @@ class World(
         return cells.contains(Cell(position))
     }
 
-    private fun neighbors(position: Position): Set<Position> {
-        val cell = Cell(position)
-        return setOf(
-            Position(cell.position.row - 1, cell.position.column),
-            Position(cell.position.row - 1, cell.position.column - 1),
-            Position(cell.position.row, cell.position.column - 1),
-            Position(cell.position.row + 1, cell.position.column - 1),
-            Position(cell.position.row + 1, cell.position.column),
-            Position(cell.position.row + 1, cell.position.column + 1),
-            Position(cell.position.row, cell.position.column + 1),
-            Position(cell.position.row - 1, cell.position.column + 1)
-        )
-    }
-
-    private fun survives(cell: Position): Boolean {
-        return survives(countLiveNeighbors(cell))
-    }
-
-    private fun born(cell: Position): Boolean {
-        return born(countLiveNeighbors(cell))
-    }
-
-    private fun survives(liveNeighbors: Int): Boolean {
-        return liveNeighborsForSurvival.contains(liveNeighbors)
-    }
-
-    private fun born(liveNeighbors: Int): Boolean {
-        return liveNeighborsForBirth.contains(liveNeighbors)
-    }
-
-    private fun countLiveNeighbors(cell: Position): Int {
-        return liveNeighbors(cell).count()
+    private fun countLiveNeighbors(position: Position): Int {
+        return liveNeighbors(position).count()
     }
 
     companion object {
