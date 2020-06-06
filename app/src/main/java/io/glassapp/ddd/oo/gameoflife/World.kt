@@ -12,6 +12,15 @@ class World(
     private val birthPolicy: BirthPolicy = StandardBirthPolicy()
     private val neighborsPolicy: NeighborsPolicy = StandardNeighborsPolicy()
 
+    fun data(): WorldData {
+        return WorldData(
+            id,
+            rows,
+            columns,
+            cells.map { it.position }
+        )
+    }
+
     fun nextGeneration() {
         cells = (survivingCells() + bornCells()).toSet()
     }
