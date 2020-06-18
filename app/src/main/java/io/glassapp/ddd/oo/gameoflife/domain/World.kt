@@ -1,4 +1,4 @@
-package io.glassapp.ddd.oo.gameoflife
+package io.glassapp.ddd.oo.gameoflife.domain
 
 import java.util.*
 
@@ -67,7 +67,14 @@ class World(
             for (i in 0 until rows) {
                 for (j in 0 until columns) {
                     if (Math.random() < 0.3) {
-                        cells.add(Cell(Position(i, j)))
+                        cells.add(
+                            Cell(
+                                Position(
+                                    i,
+                                    j
+                                )
+                            )
+                        )
                     }
                 }
             }

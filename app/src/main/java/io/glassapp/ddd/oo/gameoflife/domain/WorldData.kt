@@ -1,4 +1,4 @@
-package io.glassapp.ddd.oo.gameoflife
+package io.glassapp.ddd.oo.gameoflife.domain
 
 import java.util.*
 

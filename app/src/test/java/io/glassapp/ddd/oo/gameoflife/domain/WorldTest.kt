@@ -1,5 +1,8 @@
-package io.glassapp.ddd.oo.gameoflife
+package io.glassapp.ddd.oo.gameoflife.domain
 
+import io.glassapp.ddd.oo.gameoflife.domain.Cell
+import io.glassapp.ddd.oo.gameoflife.domain.Position
+import io.glassapp.ddd.oo.gameoflife.domain.World
 import org.junit.Test
 
 import org.junit.Assert.*
