@@ -1,8 +1,5 @@
 package io.glassapp.ddd.oo.gameoflife.domain
 
-import io.glassapp.ddd.oo.gameoflife.domain.NeighborsPolicy
-import io.glassapp.ddd.oo.gameoflife.domain.Position
-
 class StandardNeighborsPolicy :
     NeighborsPolicy {
 

@@ -1,7 +1,5 @@
 package io.glassapp.ddd.oo.gameoflife.domain
 
-import io.glassapp.ddd.oo.gameoflife.domain.BirthPolicy
-
 class StandardBirthPolicy : BirthPolicy {
     private val liveNeighborsForBirth: Set<Int> = setOf(3)
 
