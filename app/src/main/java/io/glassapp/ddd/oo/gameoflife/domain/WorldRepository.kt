@@ -12,5 +12,5 @@ interface WorldRepository {
 
     fun getAll(): List<World>
 
-    fun find(world: UUID): World
+    fun find(world: UUID): World?
 }

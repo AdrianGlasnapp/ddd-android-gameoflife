@@ -2,13 +2,13 @@ package io.glassapp.ddd.oo.gameoflife.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import io.glassapp.ddd.oo.gameoflife.GofContext
+import io.glassapp.ddd.oo.gameoflife.GolContext
 import io.glassapp.ddd.oo.gameoflife.domain.WorldData
 import io.glassapp.gameoflife.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 class GofActivity : AppCompatActivity() {
-    private val gofContext = GofContext()
+    private val gofContext = GolContext()
     private lateinit var worldData: WorldData
 
     override fun onCreate(savedInstanceState: Bundle?) {

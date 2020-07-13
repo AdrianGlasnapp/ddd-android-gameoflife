@@ -1,8 +1,5 @@
 package io.glassapp.ddd.oo.gameoflife.domain
 
-import io.glassapp.ddd.oo.gameoflife.domain.Cell
-import io.glassapp.ddd.oo.gameoflife.domain.Position
-import io.glassapp.ddd.oo.gameoflife.domain.World
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -15,7 +12,7 @@ class WorldTest {
         val rows = 9
         val columns = 9
 
-        val world = World.newWorld(rows, columns)
+        val world = World(UUID.randomUUID(), rows, columns, setOf())
 
         assertEquals(rows, world.rows)
         assertEquals(columns, world.columns)
@@ -29,7 +26,7 @@ class WorldTest {
             Cell(Position(0, 1)),
             Cell(Position(3, 3))
         )
-        val world = World.newWorld(UUID.randomUUID(), rows, columns, cells)
+        val world = World(UUID.randomUUID(), rows, columns, cells)
 
         world.nextGeneration()
 
@@ -45,7 +42,7 @@ class WorldTest {
             Cell(Position(3, 3)),
             Cell(Position(1, 1))
         )
-        val world = World.newWorld(UUID.randomUUID(), rows, columns, cells)
+        val world = World(UUID.randomUUID(), rows, columns, cells)
 
         world.nextGeneration()
 
@@ -61,7 +58,7 @@ class WorldTest {
             Cell(Position(0, 1)),
             Cell(Position(0, 2))
         )
-        val world = World.newWorld(UUID.randomUUID(), rows, columns, cells)
+        val world = World(UUID.randomUUID(), rows, columns, cells)
 
         world.nextGeneration()
 

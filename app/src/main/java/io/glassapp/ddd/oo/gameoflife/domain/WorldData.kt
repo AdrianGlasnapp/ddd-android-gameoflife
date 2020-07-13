@@ -6,6 +6,6 @@ class WorldData(
     val id: UUID,
     val rows: Int,
     val columns: Int,
-    var livingCellPositions: List<Position>
+    var livingCellPositions: Set<Position>
 ) {
 }
