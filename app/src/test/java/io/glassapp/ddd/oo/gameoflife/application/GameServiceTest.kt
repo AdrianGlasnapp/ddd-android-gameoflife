@@ -13,7 +13,21 @@ class GameServiceTest {
     private val gofContext = GolContext()
 
     @Test
-    fun `should create random world`() {
+    fun `should create random world from rows and columns`() {
+        val gameService = gofContext.gameService
+        val rows = 5
+        val columns = 8
+
+        val newWorldData = gameService.createNewWorld(rows, columns)
+        val worldData = gameService.findWorld(newWorldData.id)
+
+        assertEquals(rows, worldData.rows)
+        assertEquals(columns, worldData.columns)
+        assertNotEquals(setOf<Position>(), worldData.livingCellPositions)
+    }
+
+    @Test
+    fun `should create random world from seed when no living cells position was provided`() {
         val gameService = gofContext.gameService
         val worldSeed = WorldSeed(5, 8)
 
@@ -22,34 +36,29 @@ class GameServiceTest {
 
         assertEquals(worldSeed.rows, worldData.rows)
         assertEquals(worldSeed.columns, worldData.columns)
+        assertNotEquals(setOf<Position>(), worldData.livingCellPositions)
     }
 
     @Test
-    fun `should create world with predefined seed`() {
+    fun `should create world from predefined seed`() {
         val gameService = gofContext.gameService
-        val position = Position(1, 1)
-        val livingCells = setOf(position)
-        val rows = 5
-        val columns = 8
+        val worldSeed = createSeed()
 
-        val newWorldData = gameService.createNewWorld(rows, columns, livingCells)
+        val newWorldData = gameService.createNewWorld(worldSeed)
         val worldData = gameService.findWorld(newWorldData.id)
 
         assertEquals(newWorldData.id, worldData.id)
-        assertEquals(columns, worldData.columns)
-        assertEquals(rows, worldData.rows)
-        assertEquals(livingCells, worldData.livingCellPositions)
+        assertEquals(worldSeed.columns, worldData.columns)
+        assertEquals(worldSeed.rows, worldData.rows)
+        assertEquals(worldSeed.livingCells, worldData.livingCellPositions)
     }
 
     @Test
     fun `should return existing world by id`() {
         val gameService = gofContext.gameService
-        val position = Position(1, 1)
-        val livingCells = setOf(position)
-        val rows = 5
-        val columns = 8
+        val worldSeed = createSeed()
 
-        val newWorldData = gameService.createNewWorld(rows, columns, livingCells)
+        val newWorldData = gameService.createNewWorld(worldSeed)
         val worldData = gameService.findWorld(newWorldData.id)
 
         assertNotNull(worldData)
@@ -64,29 +73,24 @@ class GameServiceTest {
     }
 
     @Test
-    fun `should generate next iteration for given world`() {
+    fun `should generate next empty iteration for world with only 1 cell`() {
         val gameService = gofContext.gameService
-        val position = Position(1, 1)
-        val livingCells = setOf(position)
-        val rows = 5
-        val columns = 8
-        val newWorldData = gameService.createNewWorld(rows, columns, livingCells)
+        val worldSeed = createSeed()
+        val newWorldData = gameService.createNewWorld(worldSeed)
         val worldData = gameService.findWorld(newWorldData.id)
 
         val nextWorldData = gameService.generateNextIteration(worldData.id)
 
-        assertEquals(newWorldData.id, worldData.id)
-        assertEquals(nextWorldData.columns, worldData.columns)
-        assertEquals(nextWorldData.rows, worldData.rows)
-//        assertEquals(livingCells, worldData.livingCellPositions)
+        assertEquals(newWorldData.id, nextWorldData.id)
+        assertEquals(worldData.columns, nextWorldData.columns)
+        assertEquals(worldData.rows, nextWorldData.rows)
+        assertEquals(emptySet<Position>(), nextWorldData.livingCellPositions)
     }
 
-    private fun createRowAndColumnAndSeed(row: Int, column: Int, livingCells: Set<Position>): Triple<Int, Int, Set<Position>> {
-        return Triple(row, column, livingCells)
-    }
-
-    private fun createRowAndColumnPair(row: Int, column: Int): Pair<Int, Int> {
-        return Pair(row, column)
+    private fun createSeed(rows: Int = 5, columns: Int = 8): WorldSeed {
+        val position = Position(1, 1)
+        val livingCells = setOf(position)
+        return WorldSeed(rows, columns, livingCells)
     }
 
 }

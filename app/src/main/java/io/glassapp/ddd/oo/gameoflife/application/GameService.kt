@@ -7,8 +7,7 @@ class GameService(private val worldRepository: WorldRepository) {
 
 
     fun createNewWorld(rows: Int, columns: Int): WorldData {
-        val worldSeed = WorldSeed(rows, columns, CellsGenerator.generate(rows, columns))
-        return createNewWorld(worldSeed)
+        return createNewWorld(rows, columns, CellsGenerator.generate(rows, columns))
     }
 
     fun createNewWorld(rows: Int, columns: Int, livingCellsPositions: Set<Position>): WorldData {
@@ -17,13 +16,23 @@ class GameService(private val worldRepository: WorldRepository) {
     }
 
     fun createNewWorld(worldSeed: WorldSeed): WorldData {
-        val livingCells = worldSeed.livingCells.map { Cell(it) }.toSet()
+        val livingCells = prepareLivingCells(worldSeed)
         val world = World(UUID.randomUUID(), worldSeed.rows, worldSeed.columns, livingCells)
 
         worldRepository.add(world)
 
         return world.data()
     }
+
+    private fun prepareLivingCells(worldSeed: WorldSeed): Set<Cell> {
+        val livingCellsPositions = if (worldSeed.livingCells.isEmpty()) {
+            CellsGenerator.generate(worldSeed.rows, worldSeed.columns)
+        } else {
+            worldSeed.livingCells
+        }
+        return livingCellsPositions.map { Cell(it) }.toSet()
+    }
+
 
     fun generateNextIteration(worldId: UUID): WorldData {
         val world = worldRepository.find(worldId) ?: throw WorldNotFoundException()

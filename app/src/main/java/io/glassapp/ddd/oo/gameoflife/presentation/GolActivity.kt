@@ -7,7 +7,7 @@ import io.glassapp.ddd.oo.gameoflife.domain.WorldData
 import io.glassapp.gameoflife.R
 import kotlinx.android.synthetic.main.activity_main.*
 
-class GofActivity : AppCompatActivity() {
+class GolActivity : AppCompatActivity() {
     private val gofContext = GolContext()
     private lateinit var worldData: WorldData
 
