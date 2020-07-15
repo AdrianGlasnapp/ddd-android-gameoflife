@@ -15,7 +15,7 @@ class PixelGridView constructor(
     private var cellWidth: Float = 0.0F
     private var cellHeight: Float = 0.0F
     private val blackPaint = Paint()
-    private lateinit var worldData: WorldData
+    private var worldData: WorldData? = null
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -41,8 +41,8 @@ class PixelGridView constructor(
     }
 
     private fun drawCells(canvas: Canvas) {
-        worldData.livingCellPositions
-            .forEach { position ->
+        worldData?.livingCellPositions
+            ?.forEach { position ->
                 canvas.drawRect(
                     position.column * cellWidth, position.row * cellHeight,
                     (position.column + 1) * cellWidth, (position.row + 1) * cellHeight,
