@@ -1,2 +1,7 @@
+include ':example-ddd-oo:gol-ddd-oo'
 rootProject.name='Game of Life'
-include ':app'
+
+include ':example-no-arch-app'
+
+include ':example-ddd-oo:gol-ddd-oo-app'
+include ':example-ddd-oo:gol-ddd-oo'
