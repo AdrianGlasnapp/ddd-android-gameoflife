@@ -32,6 +32,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     
     implementation project(":example-ddd-oo:gol-ddd-oo")
+    implementation 'io.reactivex.rxjava2:rxjava:2.0.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.0'
 
     testImplementation 'junit:junit:4.12'
 
