@@ -20,7 +20,7 @@ class GameViewModel : ViewModel() {
         val newWorldData = gofContext.gameService.createNewWorld(rows, columns)
         worldData.value = newWorldData
 
-        Observable.interval(500, TimeUnit.MILLISECONDS)
+        Observable.interval(ITERATION_TIME_INTERVAL_IN_MILLIS, TimeUnit.MILLISECONDS)
             .map { gofContext.gameService.generateNextIteration(newWorldData.id) }
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
@@ -35,6 +35,10 @@ class GameViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.clear()
+    }
+
+    companion object {
+        private const val ITERATION_TIME_INTERVAL_IN_MILLIS = 500L
     }
 
 }
