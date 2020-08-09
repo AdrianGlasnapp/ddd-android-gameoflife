@@ -2,6 +2,9 @@ package io.glassapp.ddd.oo.gameoflife.domain
 
 import java.util.*
 
+/**
+ * Repository
+ */
 interface WorldRepository {
 
     fun add(world: World)

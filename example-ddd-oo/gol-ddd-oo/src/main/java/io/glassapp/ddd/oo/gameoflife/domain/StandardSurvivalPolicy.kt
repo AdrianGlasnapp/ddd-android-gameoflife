@@ -1,5 +1,8 @@
 package io.glassapp.ddd.oo.gameoflife.domain
 
+/**
+ * Policy
+ */
 class StandardSurvivalPolicy : SurvivalPolicy {
     private val liveNeighborsForSurvival: Set<Int> = setOf(2, 3)
 

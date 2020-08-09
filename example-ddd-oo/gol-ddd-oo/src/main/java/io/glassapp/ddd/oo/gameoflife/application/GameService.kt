@@ -3,6 +3,9 @@ package io.glassapp.ddd.oo.gameoflife.application
 import io.glassapp.ddd.oo.gameoflife.domain.*
 import java.util.*
 
+/**
+ * Application Service
+ */
 class GameService(private val worldRepository: WorldRepository) {
 
 

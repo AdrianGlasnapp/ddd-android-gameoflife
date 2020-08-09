@@ -2,6 +2,9 @@ package io.glassapp.ddd.oo.gameoflife.domain
 
 import java.util.*
 
+/**
+ * Domain Service
+ */
 class CellsGenerator {
 
     companion object {
