@@ -13,7 +13,7 @@ class World internal constructor(
 ) {
     private val survivalPolicy: SurvivalPolicy = StandardSurvivalPolicy()
     private val birthPolicy: BirthPolicy = StandardBirthPolicy()
-    private val neighborsPolicy: NeighborsPolicy = StandardNeighborsPolicy()
+    private val neighborsPolicy: NeighborsPolicy = StandardNeighborsPolicy(rows, columns)
 
     fun data(): WorldData {
         return WorldData(
